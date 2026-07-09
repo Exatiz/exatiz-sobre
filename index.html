@@ -316,6 +316,61 @@
   .colophon .l{display:flex;gap:14px;align-items:center}
   .colophon .dot{width:5px;height:5px;background:var(--teal);border-radius:50%;display:inline-block}
 
+  /* ----- MOBILE ----- */
+  @media (max-width: 640px) {
+    body { padding: 0 0 48px; }
+    .sheet { border-radius: 0; }
+
+    /* Topbar */
+    .topbar { padding: 14px 20px; flex-wrap: wrap; gap: 10px; }
+    .doc-meta { gap: 10px; font-size: 9px; }
+    .doc-meta span:not(.pill) { display: none; }
+
+    /* Hero */
+    .hero { padding: 30px 20px 22px; }
+    .eyebrow { font-size: 10px; letter-spacing: .22em; gap: 10px; }
+    .eyebrow::before { width: 22px; }
+    .h1 { font-size: 34px; margin-top: 14px; }
+    .h1 em::after { bottom: 3px; height: 7px; }
+    .h1 .strike::after { height: 4px; top: 52%; }
+    .dek { font-size: 15px; }
+
+    /* Section heads */
+    .section-head { padding: 0 20px; }
+
+    /* Compare: stack */
+    .compare { margin: 16px 20px 0; grid-template-columns: 1fr; }
+    .compare > div + div { border-left: none; border-top: 1px solid var(--rule); }
+
+    /* Diagnostic */
+    .diag { margin: 16px 20px 0; }
+    .diag-body { grid-template-columns: 1fr; padding: 18px 18px 20px; gap: 20px; }
+    .bar { grid-template-columns: 86px 1fr 32px; font-size: 10.5px; }
+    .threshold { padding-left: 96px; }
+
+    /* Package: 2 columns */
+    .pack { margin: 16px 20px 0; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .pack .card { min-height: auto; padding: 14px 12px 16px; }
+    .pack .card .t { font-size: 14px; margin-top: 10px; }
+    .pack .card .d { font-size: 12px; }
+
+    /* How it works: stack */
+    .how { margin: 16px 20px 0; grid-template-columns: 1fr; }
+    .how .step { padding: 18px 0; }
+    .how .step + .step { padding-left: 0; border-left: none; border-top: 1px solid var(--rule); }
+
+    /* Who: stack */
+    .who { margin: 16px 20px 0; grid-template-columns: 1fr; }
+
+    /* CTA: stack */
+    .cta { margin: 16px 20px 0; grid-template-columns: 1fr; padding: 22px 20px 24px; gap: 16px; }
+    .cta h2 { font-size: 22px; }
+    .cta .right { align-items: flex-start; }
+
+    /* Colophon */
+    .colophon { margin: 14px 20px 8px; flex-direction: column; gap: 6px; }
+  }
+
   /* ----- PRINT ----- */
   @media print{
     @page{size:A4 portrait;margin:0}

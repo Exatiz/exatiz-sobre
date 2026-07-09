@@ -99,7 +99,7 @@
     content:"";position:absolute;left:-2px;right:-2px;bottom:6px;height:10px;
     background:rgba(127,173,186,.55);z-index:-1;
   }
-  .h1 .strike{position:relative;color:var(--ink-soft)}
+  .h1 .strike{position:relative;color:var(--ink-soft);white-space:nowrap}
   .h1 .strike::after{
     content:"";position:absolute;left:-4px;right:-4px;top:54%;height:5px;
     background:var(--alert);transform:skewY(-2deg);
@@ -332,7 +332,8 @@
     .eyebrow::before { width: 22px; }
     .h1 { font-size: 34px; margin-top: 14px; }
     .h1 em::after { bottom: 3px; height: 7px; }
-    .h1 .strike::after { height: 4px; top: 52%; }
+    .h1 .strike { white-space: normal; text-decoration: line-through; text-decoration-color: var(--alert); text-decoration-thickness: 4px; text-decoration-skip-ink: none; }
+    .h1 .strike::after { display: none; }
     .dek { font-size: 15px; }
 
     /* Section heads */

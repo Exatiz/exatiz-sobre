@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Exatiz — Revision Cycle (one-pager)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Saira:wght@300;400;500;600;700&family=Saira+Condensed:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:        #0F2A2E;
+    --ink-soft:   #2A4448;
+    --teal:       #365F65;  /* manual */
+    --teal-deep:  #0F4D52;
+    --teal-mid:   #7FADBA;  /* manual */
+    --teal-pale:  #BCC9D0;  /* manual */
+    --paper:      #F4EFE6;
+    --paper-2:    #EBE4D6;
+    --rule:       rgba(15,42,46,.16);
+    --rule-soft:  rgba(15,42,46,.09);
+    --alert:      #B85540;
+    --alert-soft: #E8C6B8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0B2326;font-family:"Saira",ui-sans-serif,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{padding:48px 24px 80px;display:flex;justify-content:center}
+
+  /* Paper */
+  .sheet{
+    width:min(920px,100%);
+    background:var(--paper);
+    background-image:
+      radial-gradient(1200px 700px at 100% -10%, rgba(127,173,186,.18), transparent 55%),
+      radial-gradient(900px 600px at -10% 105%, rgba(54,95,101,.12), transparent 55%);
+    color:var(--ink);
+    border-radius:6px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.6) inset,
+      0 30px 80px -30px rgba(0,0,0,.55),
+      0 8px 20px -10px rgba(0,0,0,.35);
+    position:relative;
+    overflow:hidden;
+  }
+  .sheet::before{
+    /* very subtle paper grain */
+    content:"";
+    position:absolute;inset:0;pointer-events:none;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(15,42,46,.018) 0 1px, transparent 1px 3px);
+    mix-blend-mode:multiply;
+  }
+  .pad{padding:44px 56px}
+
+  /* ----- HEADER ----- */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 56px;
+    border-bottom:1px solid var(--rule);
+    background:rgba(15,42,46,.03);
+  }
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{width:34px;height:34px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.18))}
+  .brand .word{
+    font-family:"Archivo Black",sans-serif;
+    font-size:18px;letter-spacing:.02em;line-height:1;color:var(--ink);
+  }
+  .brand .sub{
+    display:block;
+    font-family:"Saira Condensed",sans-serif;
+    font-weight:600;font-size:9.5px;letter-spacing:.32em;
+    color:var(--teal);margin-top:4px;text-transform:uppercase;
+  }
+  .doc-meta{
+    display:flex;gap:18px;align-items:center;
+    font-family:"Saira Condensed",sans-serif;font-weight:600;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .doc-meta .pill{
+    border:1px solid var(--ink);padding:5px 10px 4px;border-radius:999px;color:var(--ink);
+  }
+
+  /* ----- HERO ----- */
+  .hero{padding:56px 56px 36px}
+  .eyebrow{
+    font-family:"Saira Condensed",sans-serif;
+    font-weight:700;font-size:11px;letter-spacing:.36em;text-transform:uppercase;
+    color:var(--teal);display:flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before{content:"";width:38px;height:1.5px;background:var(--teal)}
+  .h1{
+    font-family:"Archivo Black",sans-serif;
+    font-size:60px;line-height:.96;letter-spacing:-.015em;
+    color:var(--ink);margin-top:18px;text-wrap:balance;
+  }
+  .h1 em{font-style:normal;color:var(--teal-deep);position:relative;white-space:nowrap}
+  .h1 em::after{
+    content:"";position:absolute;left:-2px;right:-2px;bottom:6px;height:10px;
+    background:rgba(127,173,186,.55);z-index:-1;
+  }
+  .h1 .strike{position:relative;color:var(--ink-soft)}
+  .h1 .strike::after{
+    content:"";position:absolute;left:-4px;right:-4px;top:54%;height:5px;
+    background:var(--alert);transform:skewY(-2deg);
+  }
+  .dek{
+    margin-top:22px;max-width:640px;
+    font-size:17px;line-height:1.5;color:var(--ink-soft);font-weight:400;
+  }
+  .dek b{color:var(--ink);font-weight:600}
+
+  /* ----- DIVIDERS ----- */
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+    padding:0 56px;margin-top:8px;
+  }
+  .section-head .num{
+    font-family:"Archivo Black",sans-serif;font-size:14px;color:var(--teal);letter-spacing:.04em;
+  }
+  .section-head .lab{
+    font-family:"Saira Condensed",sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.32em;font-size:11px;color:var(--ink);
+    flex:1;border-bottom:1px dashed var(--rule);padding-bottom:10px;margin-left:14px;
+  }
+
+  /* ----- PROBLEM vs PRODUCT ----- */
+  .compare{
+    display:grid;grid-template-columns:1fr 1fr;gap:0;
+    margin:22px 56px 0;border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+    background:#fffdf7;
+  }
+  .compare > div{padding:24px 24px 26px;position:relative}
+  .compare > div + div{border-left:1px solid var(--rule)}
+  .col-tag{
+    font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:10px;
+    letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .col-tag.alert{color:var(--alert)}
+  .col-tag.teal{color:var(--teal-deep)}
+  .col-title{
+    font-family:"Archivo Black",sans-serif;font-size:20px;line-height:1.08;
+    color:var(--ink);margin-top:8px;letter-spacing:-.005em;
+  }
+  .col-body{
+    margin-top:10px;font-size:13.5px;line-height:1.45;color:var(--ink-soft);
+  }
+  /* mini timelines */
+  .timeline{
+    margin-top:18px;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;
+  }
+  .timeline .wk{
+    height:34px;border:1px solid var(--rule);background:#fff;
+    display:flex;align-items:flex-end;justify-content:center;
+    font-family:"Saira Condensed",sans-serif;font-weight:600;font-size:9px;
+    color:var(--ink-soft);padding-bottom:3px;letter-spacing:.06em;
+    position:relative;
+  }
+  .timeline .wk.sim{background:var(--alert);color:#fff;border-color:var(--alert)}
+  .timeline .wk.sim::before{
+    content:"DESCOBERTA";position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+    font-size:8px;letter-spacing:.18em;color:var(--alert);font-weight:700;white-space:nowrap;
+  }
+  .timeline.fixed .wk{background:#fff}
+  .timeline.fixed .wk.flag{background:var(--teal-pale);border-color:var(--teal-mid)}
+  .timeline.fixed .wk.flag::before{
+    content:"AJUSTE";position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+    font-size:8px;letter-spacing:.18em;color:var(--teal-deep);font-weight:700;white-space:nowrap;
+  }
+  .timeline.fixed .wk.sim{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep)}
+  .timeline.fixed .wk.sim::before{
+    content:"SIMULADO OK";color:var(--teal-deep);
+  }
+  .tl-cap{
+    margin-top:24px;font-family:"Saira Condensed",sans-serif;font-weight:600;
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);
+  }
+
+  /* ----- DIAGNOSTIC PANEL ----- */
+  .diag{
+    margin:22px 56px 0;background:var(--ink);color:#E8EEEE;border-radius:6px;overflow:hidden;
+    position:relative;
+  }
+  .diag-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08);
+    font-family:"Saira Condensed",sans-serif;
+  }
+  .diag-head .l{font-weight:700;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-mid)}
+  .diag-head .r{font-size:11px;letter-spacing:.18em;color:#9DB0B3;text-transform:uppercase}
+  .diag-body{padding:22px 24px 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center}
+  .diag h3{
+    font-family:"Archivo Black",sans-serif;font-size:18px;line-height:1.15;color:#fff;
+    letter-spacing:-.005em;margin-bottom:6px;
+  }
+  .diag p{font-size:13px;line-height:1.5;color:#B8C7C9}
+  .diag .quote{
+    margin-top:14px;padding:12px 14px;border-left:3px solid var(--teal-mid);
+    background:rgba(127,173,186,.08);font-size:12.5px;line-height:1.45;color:#E2EAEB;
+  }
+  .diag .quote b{color:#fff}
+
+  /* Bars */
+  .bars{display:flex;flex-direction:column;gap:8px;font-family:"Saira",sans-serif}
+  .bar{display:grid;grid-template-columns:130px 1fr 38px;align-items:center;gap:10px;font-size:11.5px}
+  .bar .name{color:#C3D0D2;letter-spacing:.01em}
+  .bar .track{height:14px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;position:relative}
+  .bar .fill{height:100%;background:var(--teal-mid);border-radius:2px}
+  .bar.danger .fill{background:var(--alert)}
+  .bar .pct{text-align:right;color:#C3D0D2;font-variant-numeric:tabular-nums}
+  .bar.danger .pct{color:var(--alert);font-weight:600}
+  .bar.danger .name{color:#fff;font-weight:600}
+  .threshold{
+    position:relative;margin-top:4px;font-family:"Saira Condensed",sans-serif;
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7F9598;
+    display:flex;align-items:center;gap:8px;padding-left:140px;
+  }
+  .threshold::before{content:"";width:1px;height:9px;background:#7F9598}
+
+  /* ----- PACKAGE ----- */
+  .pack{
+    margin:22px 56px 0;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  }
+  .pack .card{
+    background:#fffdf7;border:1px solid var(--rule);border-radius:4px;padding:18px 16px 20px;
+    position:relative;min-height:170px;display:flex;flex-direction:column;
+  }
+  .pack .card .n{
+    font-family:"Archivo Black",sans-serif;font-size:11px;color:var(--teal);
+    letter-spacing:.04em;
+  }
+  .pack .card .t{
+    font-family:"Archivo Black",sans-serif;font-size:16px;color:var(--ink);
+    line-height:1.1;margin-top:14px;letter-spacing:-.005em;
+  }
+  .pack .card .d{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.42;flex:1}
+  .pack .card .f{
+    margin-top:12px;font-family:"Saira Condensed",sans-serif;font-weight:600;
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-deep);
+    padding-top:10px;border-top:1px solid var(--rule-soft);
+  }
+
+  /* ----- HOW IT WORKS ----- */
+  .how{
+    margin:22px 56px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  }
+  .how .step{padding:22px 18px 22px 0;position:relative}
+  .how .step + .step{padding-left:24px;border-left:1px solid var(--rule)}
+  .how .step .k{
+    font-family:"Archivo Black",sans-serif;font-size:34px;color:var(--teal-mid);line-height:1;letter-spacing:-.02em;
+  }
+  .how .step .h{
+    font-family:"Archivo Black",sans-serif;font-size:15px;color:var(--ink);margin-top:8px;
+    letter-spacing:-.005em;
+  }
+  .how .step .p{font-size:12.5px;color:var(--ink-soft);margin-top:6px;line-height:1.45}
+
+  /* ----- AUDIENCE / NOT FOR ----- */
+  .who{
+    margin:22px 56px 0;display:grid;grid-template-columns:1.05fr .95fr;gap:18px;
+  }
+  .who .box{
+    background:#fffdf7;border:1px solid var(--rule);border-radius:4px;padding:20px 22px;
+  }
+  .who .box.b2{background:transparent;border-style:dashed}
+  .who h4{
+    font-family:"Saira Condensed",sans-serif;font-weight:700;
+    font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);
+    margin-bottom:14px;
+  }
+  .who h4 span{color:var(--ink-soft);font-weight:500;letter-spacing:.22em}
+  .who ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .who li{
+    font-size:13px;line-height:1.4;color:var(--ink-soft);padding-left:18px;position:relative;
+  }
+  .who li::before{
+    content:"";position:absolute;left:0;top:8px;width:8px;height:8px;
+    background:var(--teal-deep);
+  }
+  .who .b2 li::before{background:transparent;border:1px solid var(--ink-soft);width:8px;height:8px}
+  .who .b2 li{color:var(--ink-soft)}
+
+  /* ----- CTA / FOOTER ----- */
+  .cta{
+    margin:28px 56px 0;background:var(--ink);color:#F0EDE6;border-radius:6px;
+    padding:26px 28px 28px;display:grid;grid-template-columns:1.3fr .9fr;gap:22px;align-items:end;
+    position:relative;overflow:hidden;
+  }
+  .cta::before{
+    content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(127,173,186,.35), rgba(127,173,186,0) 65%);
+  }
+  .cta h2{
+    font-family:"Archivo Black",sans-serif;font-size:30px;line-height:1.02;letter-spacing:-.01em;color:#fff;
+  }
+  .cta h2 em{font-style:normal;color:var(--teal-mid)}
+  .cta p{margin-top:10px;font-size:13px;line-height:1.5;color:#B8C7C9;max-width:420px}
+  .cta .right{
+    display:flex;flex-direction:column;align-items:flex-end;gap:10px;
+    font-family:"Saira Condensed",sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9DB0B3;
+  }
+  .cta .btn{
+    background:var(--teal-mid);color:var(--ink);padding:14px 22px;
+    font-family:"Archivo Black",sans-serif;font-size:13px;letter-spacing:.02em;
+    border-radius:3px;text-decoration:none;display:inline-block;
+  }
+
+  .colophon{
+    margin:18px 56px 8px;display:flex;justify-content:space-between;align-items:center;
+    font-family:"Saira Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .colophon .l{display:flex;gap:14px;align-items:center}
+  .colophon .dot{width:5px;height:5px;background:var(--teal);border-radius:50%;display:inline-block}
+
+  /* ----- PRINT ----- */
+  @media print{
+    @page{size:A4 portrait;margin:0}
+    html,body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+    body{padding:0;display:block}
+    .sheet{
+      box-shadow:none;border-radius:0;width:100%;
+      transform:scale(.94);transform-origin:top center;
+    }
+    .sheet::before{display:none}
+    .hero, .compare, .diag, .pack, .how, .who, .cta, .colophon{break-inside:avoid;page-break-inside:avoid}
+    .compare > div, .pack .card, .how .step, .who .box{break-inside:avoid;page-break-inside:avoid}
+    .bar, .timeline, .section-head{break-inside:avoid;page-break-inside:avoid}
+    *{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<article class="sheet">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand">
+      <img src="exatiz-icon.png" alt="Exatiz" />
+      <div>
+        <div class="word">EXATIZ</div>
+        <span class="sub">Plataforma Educacional</span>
+      </div>
+    </div>
+    <div class="doc-meta">
+      <span>One-pager</span>
+      <span class="pill">Revision Cycle</span>
+      <span>2026 / SP</span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Para diretores pedagógicos de cursinhos pré-vestibular</div>
+    <h1 class="h1">
+      Pare de descobrir <span class="strike">na véspera do simulado</span> que a turma não <em>dominou um tópico</em>.
+    </h1>
+    <p class="dek">
+      Três promessas em um único ciclo semanal: o <b>aluno revisa com método</b> (sem depender de
+      &ldquo;como estudar&rdquo;), o <b>professor recebe a aula da semana pronta</b> e <b>você acompanha</b>,
+      turma por turma, o que ainda não foi dominado — antes do simulado, não depois.
+    </p>
+  </section>
+
+  <!-- 01 — THE CYCLE -->
+  <div class="section-head">
+    <span class="num">01</span>
+    <span class="lab">O ciclo que precisa parar</span>
+  </div>
+
+  <div class="compare">
+    <div>
+      <div class="col-tag alert">Cursinho hoje</div>
+      <div class="col-title">O simulado é o primeiro alarme.</div>
+      <p class="col-body">
+        Oito semanas de conteúdo. No fim, o simulado revela que 38% da turma não aprendeu
+        cinética química. A correção entra na semana seguinte, em cima da hora,
+        sem material novo e em paralelo com o conteúdo já programado.
+      </p>
+      <div class="timeline">
+        <div class="wk">S1</div><div class="wk">S2</div><div class="wk">S3</div>
+        <div class="wk">S4</div><div class="wk">S5</div><div class="wk">S6</div>
+        <div class="wk">S7</div><div class="wk sim">SIM</div>
+      </div>
+      <div class="tl-cap">Diagnóstico chega tarde · correção improvisada</div>
+    </div>
+    <div>
+      <div class="col-tag teal">Cursinho com Revision Cycle</div>
+      <div class="col-title">A turma chega no simulado sem buraco.</div>
+      <p class="col-body">
+        Toda semana o aluno revisa de verdade. O professor entra em sala com a aula da semana
+        pronta. Você vê o que está derrubando a turma <b>antes</b> que vire nota no simulado.
+        Três ciclos de reforço onde antes existia um.
+      </p>
+      <div class="timeline fixed">
+        <div class="wk">S1</div><div class="wk flag">S2</div><div class="wk">S3</div>
+        <div class="wk flag">S4</div><div class="wk">S5</div><div class="wk flag">S6</div>
+        <div class="wk">S7</div><div class="wk sim">SIM</div>
+      </div>
+      <div class="tl-cap">Ajuste contínuo · 3 ciclos de reforço antes do simulado</div>
+    </div>
+  </div>
+
+  <!-- 02 — DIAGNOSTIC EXAMPLE -->
+  <div class="section-head" style="margin-top:30px">
+    <span class="num">02</span>
+    <span class="lab">O que sua turma ainda não dominou</span>
+  </div>
+
+  <div class="diag">
+    <div class="diag-head">
+      <div class="l">Retrato da semana · Química</div>
+      <div class="r">Exemplo ilustrativo</div>
+    </div>
+    <div class="diag-body">
+      <div>
+        <h3>Cinética química, lei de velocidade.<br/>É o que a sua turma ainda finge que sabe.</h3>
+        <p>Em nove subtópicos avaliados na semana, oito a turma já dominou. Um, não. É nele
+          que entra a aula presencial da semana — plano, slides e exercícios já prontos.</p>
+        <div class="quote">
+          <b>Onde o aluno trava.</b> 41% da turma não chegou ao domínio. Padrão dominante:
+          erram quando misturam ordem da reação com leitura de gráfico. Sabem a fórmula.
+          Não leem o gráfico. Sua aula da semana já entra corrigindo exatamente isso.
+        </div>
+      </div>
+      <div class="bars">
+        <div class="bar"><span class="name">Estequiometria</span><div class="track"><div class="fill" style="width:88%"></div></div><span class="pct">88%</span></div>
+        <div class="bar"><span class="name">Soluções</span><div class="track"><div class="fill" style="width:82%"></div></div><span class="pct">82%</span></div>
+        <div class="bar"><span class="name">Termoquímica</span><div class="track"><div class="fill" style="width:79%"></div></div><span class="pct">79%</span></div>
+        <div class="bar"><span class="name">Equilíbrio iônico</span><div class="track"><div class="fill" style="width:76%"></div></div><span class="pct">76%</span></div>
+        <div class="bar"><span class="name">Eletroquímica</span><div class="track"><div class="fill" style="width:74%"></div></div><span class="pct">74%</span></div>
+        <div class="bar"><span class="name">pH e pOH</span><div class="track"><div class="fill" style="width:72%"></div></div><span class="pct">72%</span></div>
+        <div class="bar danger"><span class="name">Cinética — lei velocidade</span><div class="track"><div class="fill" style="width:41%"></div></div><span class="pct">41%</span></div>
+        <div class="bar"><span class="name">Cinética — energia ativ.</span><div class="track"><div class="fill" style="width:73%"></div></div><span class="pct">73%</span></div>
+        <div class="bar"><span class="name">Radioatividade</span><div class="track"><div class="fill" style="width:81%"></div></div><span class="pct">81%</span></div>
+        <div class="threshold"><span>linha de corte · 70%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 — PACKAGE -->
+  <div class="section-head" style="margin-top:30px">
+    <span class="num">03</span>
+    <span class="lab">O que chega na mesa do professor toda segunda-feira</span>
+  </div>
+
+  <div class="pack">
+    <div class="card">
+      <div class="n">01</div>
+      <div class="t">O que está derrubando a turma</div>
+      <div class="d">O subtópico exato, o tamanho do problema e o tipo de erro mais comum. Uma página, sem rodeio.</div>
+      <div class="f">PDF · 1 página</div>
+    </div>
+    <div class="card">
+      <div class="n">02</div>
+      <div class="t">A aula de 50 minutos</div>
+      <div class="d">Roteiro com abertura, exemplos e exercícios escolhidos pelo erro que a turma comete — não um plano genérico.</div>
+      <div class="f">Plano editável</div>
+    </div>
+    <div class="card">
+      <div class="n">03</div>
+      <div class="t">Slides prontos para projetar</div>
+      <div class="d">Apresentação com a identidade do cursinho, gráficos e exercícios formatados. O professor só entra em sala.</div>
+      <div class="f">PPTX editável</div>
+    </div>
+    <div class="card">
+      <div class="n">04</div>
+      <div class="t">A prova de que funcionou</div>
+      <div class="d">Oito questões após a aula mostram se o buraco fechou. Você vê eficiência, não presença.</div>
+      <div class="f">Aplicação digital</div>
+    </div>
+  </div>
+
+  <!-- 04 — HOW IT WORKS -->
+  <div class="section-head" style="margin-top:30px">
+    <span class="num">04</span>
+    <span class="lab">Como funciona</span>
+  </div>
+
+  <div class="how">
+    <div class="step">
+      <div class="k">01</div>
+      <div class="h">O aluno revisa sem precisar saber como.</div>
+      <div class="p">O caminho de revisão é decidido para ele. Sem material extra, sem orientação
+        avulsa do professor, sem aluno perdido em &ldquo;por onde começo&rdquo;. Praticidade onde
+        antes era força de vontade.</div>
+    </div>
+    <div class="step">
+      <div class="k">02</div>
+      <div class="h">O professor recebe a aula da semana pronta.</div>
+      <div class="p">Plano, slides e exercícios na mesa toda segunda. O assunto muda conforme o
+        que a turma não conseguiu fechar. Tempo de preparação: zero. Clareza sobre o que
+        precisa virar aula: total.</div>
+    </div>
+    <div class="step">
+      <div class="k">03</div>
+      <div class="h">Você decide com evidência, não com achismo.</div>
+      <div class="p">Um relatório por turma, toda semana, mostra o que ainda não foi dominado.
+        Coordenação pedagógica deixa de chutar. Você cobra professor com dado, não com
+        reunião de corredor.</div>
+    </div>
+  </div>
+
+  <!-- 05 — WHO -->
+  <div class="section-head" style="margin-top:30px">
+    <span class="num">05</span>
+    <span class="lab">Para quem é &mdash; e para quem não é</span>
+  </div>
+
+  <div class="who">
+    <div class="box">
+      <h4>Faz sentido se</h4>
+      <ul>
+        <li>Você quer <b>resultado no simulado</b>, não só calendário cumprido.</li>
+        <li>Você quer <b>professor focado em aula</b>, não montando reforço da própria cabeça.</li>
+        <li>Você quer <b>aluno revisando de verdade</b>, não decorando PDF na véspera.</li>
+        <li>Você quer <b>decisão pedagógica com evidência</b>, não com achismo de corredor.</li>
+      </ul>
+    </div>
+    <div class="box b2">
+      <h4>Não é para você se <span>— honesto</span></h4>
+      <ul>
+        <li>Você não consegue (ou não quer) que seus alunos tenham rotina de revisão digital. Sem aluno revisando, não tem ciclo.</li>
+        <li>Você procura ferramenta de marketing ou de captação de alunos.</li>
+        <li>Você quer substituir o professor. A aula da semana existe justamente porque chega um momento em que o aluno precisa de alguém — não de mais um método.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div>
+      <h2>Quer ver o Revision Cycle rodando na sua turma? <em>Piloto de 21 dias.</em></h2>
+      <p>Três semanas com uma turma sua. No fim, você recebe três aulas reais — slides e
+        exercícios — e o primeiro retrato do que a sua turma sabe (e do que finge que sabe).
+        Sem custo, sem contrato.</p>
+    </div>
+    <div class="right">
+      <a class="btn" href="mailto:suporte@exatiz.com?subject=Piloto%20Revision%20Cycle">Agendar conversa &rarr;</a>
+      <span><a href="mailto:suporte@exatiz.com" style="color:inherit;text-decoration:none">suporte@exatiz.com</a></span>
+      <span>São Paulo · SP</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <div class="l"><span class="dot"></span><span>Exatiz · Plataforma Educacional</span></div>
+    <div>Documento institucional · Revisão 05/2026</div>
+  </div>
+
+</article>
+
+</body>
+</html>
